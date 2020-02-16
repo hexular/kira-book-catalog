@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'books.apps.BooksConfig',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,11 @@ WSGI_APPLICATION = 'challenge.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'myDatabase',
+        'USER': 'root',
+        'PASSWORD': '123',
+        'HOST': '534.13.356.35',
+        'PORT': '3306',
     }
 }
 
@@ -117,8 +122,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+APPEND_SLASH = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join("challenge", "static")
+]
