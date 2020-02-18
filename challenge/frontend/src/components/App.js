@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { render } from "react-dom";
 
 export default function App() {
 
@@ -12,6 +13,7 @@ export default function App() {
         return res.json()
       })
       .then(data => {
+        console.log(data)
         setData(data)
         setLoaded(true)
       })
@@ -23,14 +25,17 @@ export default function App() {
         {loaded ? data.map(book => {
           return (
             <li key={book.id}>
-              {book.title} by {book.authour}
+              {book.title} by {book.author}
             </li>
           );
         })
         :
-        {placeholder}
+        'loading'
       }
       </ul>
     </React.Fragment>
   )
 }
+
+const container = document.getElementById("app");
+render(<App />, container);
