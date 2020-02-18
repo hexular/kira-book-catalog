@@ -24,7 +24,7 @@ export default function App() {
       <ul>
         {loaded ? data.map(book => {
           return (
-            <Book book={book}/>
+            <Book key={book.id} book={book}/>
           );
         })
         :
