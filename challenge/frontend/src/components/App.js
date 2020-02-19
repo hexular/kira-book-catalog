@@ -13,8 +13,26 @@ import Book from './Book';
 export default function App() {
 
   const [data, setData] = useState([])
+  const [display, setDisplay] = useState([])
+  const [search, setSearch] = useState('')
   const [loaded, setLoaded] = useState(false)
   const [update, setUpdate] = useState(false)
+
+  const filterBooks = () => {
+    const filteredBooks = data.filter(book => {
+      return book.title
+              .split(' ')
+              .join('')
+              .toLowerCase()
+              .indexOf(search) >= 0;
+    });
+    setDisplay(filteredBooks)
+  }
+
+  const handleSearch = e => {
+    setSearch(e.target.value)
+    filterBooks()
+  }
 
   useEffect(() => {
     fetch('api/book')
@@ -24,6 +42,8 @@ export default function App() {
       .then(data => {
         console.log(data)
         setData(data)
+        setDisplay(data)
+        setSearch(document.getElementById('search-bar').value)
         setLoaded(true)
       })
     setUpdate(false)
@@ -31,8 +51,17 @@ export default function App() {
 
   return (
     <React.Fragment>
+      <form autoComplete="off">
+        <input 
+          type="text"
+          name="search-by-name"
+          id="search-bar"
+          placeholder="Search for a book"
+          onChange={handleSearch}
+        />
+      </form>
       <ul>
-        {loaded ? data.map(book => {
+        {loaded ? display.map(book => {
           return (
             <Book key={book.id} book={book} setUpdate={setUpdate} />
           );
