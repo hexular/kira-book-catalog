@@ -14,37 +14,40 @@ export default function App() {
 
   const [data, setData] = useState([])
   const [display, setDisplay] = useState([])
-  const [search, setSearch] = useState('')
   const [loaded, setLoaded] = useState(false)
   const [update, setUpdate] = useState(false)
 
-  const filterBooks = () => {
+  
+
+  const filterBooks = (filter, data) => {
     const filteredBooks = data.filter(book => {
       return book.title
               .split(' ')
               .join('')
               .toLowerCase()
-              .indexOf(search) >= 0;
+              .indexOf(filter) >= 0;
     });
     setDisplay(filteredBooks)
   }
 
   const handleSearch = e => {
-    setSearch(e.target.value)
-    filterBooks()
+    filterBooks(e.target.value, data)
   }
 
   useEffect(() => {
+    console.log(display)
+    setLoaded(false)
+    let search = document.getElementById('search-bar').value;
     fetch('api/book')
       .then(res => {
         return res.json()
       })
-      .then(data => {
-        console.log(data)
-        setData(data)
-        setDisplay(data)
-        setSearch(document.getElementById('search-bar').value)
+      .then(books => {
+        console.log(books)
+        setData(books)
+        display.length > 0 ? filterBooks(search, books) : setDisplay(books);
         setLoaded(true)
+        // loaded && search !== '' && filterBooks(search)
       })
     setUpdate(false)
   }, [update === true])
