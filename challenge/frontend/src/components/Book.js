@@ -14,14 +14,14 @@ export default function Book(props) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ reserved: newReserved })
-    });
-    props.setUpdate(true)
+    })
+    .then(() => props.setUpdate(!props.update))
   }
 
   return (
     <React.Fragment>
       <li>
-        {title} by {author}
+        "{title}" by {author}
       </li>
       <p>{quantity} left in stock</p>
       <p>{reserved} currently on hold</p>

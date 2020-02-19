@@ -3,7 +3,6 @@ import { render } from "react-dom";
 import Book from './Book';
 
 // TODO: 
-// - Search by title
 // - Reserved by add name and click to expand by who
 //    - Render return button next to each individual reservation
 // - View by reserved or available
@@ -16,8 +15,6 @@ export default function App() {
   const [display, setDisplay] = useState([])
   const [loaded, setLoaded] = useState(false)
   const [update, setUpdate] = useState(false)
-
-  
 
   const filterBooks = (filter, data) => {
     const filteredBooks = data.filter(book => {
@@ -47,10 +44,8 @@ export default function App() {
         setData(books)
         display.length > 0 ? filterBooks(search, books) : setDisplay(books);
         setLoaded(true)
-        // loaded && search !== '' && filterBooks(search)
       })
-    setUpdate(false)
-  }, [update === true])
+  }, [update])
 
   return (
     <React.Fragment>
@@ -66,7 +61,7 @@ export default function App() {
       <ul>
         {loaded ? display.map(book => {
           return (
-            <Book key={book.id} book={book} setUpdate={setUpdate} />
+            <Book key={book.id} book={book} update={update} setUpdate={setUpdate} />
           );
           })
           :
