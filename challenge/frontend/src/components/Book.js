@@ -10,15 +10,16 @@ export default function Book(props) {
   // PATCH method proved to be unnecessarily complicated given the Django REST framework
   // Decided to use PUT with a partial update
   const reserveBook = change => {
-    const update = reserved + change;
-    console.log(update)
+    const newReserved = reserved + change;
+    console.log(reserved, change)
     fetch(`api/book/update/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ reserved: update })
+      body: JSON.stringify({ reserved: newReserved })
     });
+    props.setUpdate(true)
   }
 
   return (
@@ -27,9 +28,9 @@ export default function Book(props) {
         {title} by {author}
       </li>
       <p>{quantity} left in stock</p>
-      <button onClick={() => reserveBook(-1)}>Return</button>
-      {quantity === 0 ? <button disabled={disabled}>Reserve</button> : <button onClick={() => reserveBook(1)}>Reserve</button>}
-      <br/>
+      <p>{reserved} currently on hold</p>
+      {reserved === 0 ? <button disabled>Return</button> : <button onClick={() => reserveBook(-1)}>Return</button>}
+      {quantity === 0 || quantity === reserved ? <button disabled>Reserve</button> : <button onClick={() => reserveBook(1)}>Reserve</button>}
     </React.Fragment>
   )
 }

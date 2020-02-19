@@ -6,6 +6,7 @@ export default function App() {
 
   const [data, setData] = useState([])
   const [loaded, setLoaded] = useState(false)
+  const [update, setUpdate] = useState(false)
 
   useEffect(() => {
     fetch('api/book')
@@ -17,19 +18,20 @@ export default function App() {
         setData(data)
         setLoaded(true)
       })
-  }, [])
+    setUpdate(false)
+  }, [update === true])
 
   return (
     <React.Fragment>
       <ul>
         {loaded ? data.map(book => {
           return (
-            <Book key={book.id} book={book}/>
+            <Book key={book.id} book={book} setUpdate={setUpdate} />
           );
-        })
-        :
-        'Loading...'
-      }
+          })
+          :
+          'Loading...'
+        }
       </ul>
     </React.Fragment>
   )
