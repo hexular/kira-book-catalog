@@ -2,19 +2,12 @@ import React, { useState, useEffect } from "react";
 import { render } from "react-dom";
 import Book from './Book';
 
-// TODO: 
-// - Reserved by add name and click to expand by who
-//    - Render return button next to each individual reservation
-// - View by reserved or available
-// - Add button to send all API calls together at end
-//    - Implement caching for this
-
 export default function App() {
 
-  const [data, setData] = useState([])
-  const [display, setDisplay] = useState([])
-  const [loaded, setLoaded] = useState(false)
-  const [update, setUpdate] = useState(false)
+  const [data, setData] = useState([]);
+  const [display, setDisplay] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const filterBooks = (filter, data) => {
     const filteredBooks = data.filter(book => {
@@ -24,31 +17,30 @@ export default function App() {
               .toLowerCase()
               .indexOf(filter) >= 0;
     });
-    setDisplay(filteredBooks)
-  }
+    setDisplay(filteredBooks);
+  };
 
   const handleSearch = e => {
-    filterBooks(e.target.value, data)
-  }
+    filterBooks(e.target.value, data);
+  };
 
   useEffect(() => {
-    console.log(display)
-    setLoaded(false)
+    setLoaded(false);
     let search = document.getElementById('search-bar').value;
     fetch('api/book')
       .then(res => {
-        return res.json()
+        return res.json();
       })
       .then(books => {
-        console.log(books)
-        setData(books)
+        setData(books);
         display.length > 0 ? filterBooks(search, books) : setDisplay(books);
-        setLoaded(true)
-      })
-  }, [update])
+        setLoaded(true);
+      });
+  }, []);
 
   return (
     <React.Fragment>
+      <h1>Saasvile Public Library Book Catalogue</h1>
       <form autoComplete="off">
         <input 
           type="text"
@@ -59,18 +51,15 @@ export default function App() {
         />
       </form>
       <ul>
-        {loaded ? display.map(book => {
-          return (
-            <Book key={book.id} book={book} update={update} setUpdate={setUpdate} />
-          );
-          })
+        {loaded ? 
+          display.map(book => <Book key={book.id} book={book} />)
           :
           'Loading...'
         }
       </ul>
     </React.Fragment>
-  )
-}
+  );
+};
 
 const container = document.getElementById("app");
 render(<App />, container);
