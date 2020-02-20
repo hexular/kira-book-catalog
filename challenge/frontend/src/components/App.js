@@ -40,7 +40,7 @@ export default function App() {
 
   return (
     <React.Fragment>
-      <h1>Saasvile Public Library Book Catalogue</h1>
+      <h1>Saasvile Public Library Book Catalog</h1>
       <form autoComplete="off">
         <input 
           type="text"
